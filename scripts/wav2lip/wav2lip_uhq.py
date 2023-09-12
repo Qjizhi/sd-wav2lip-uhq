@@ -122,11 +122,13 @@ class Wav2LipUHQ:
         (nstart, nend) = face_utils.FACIAL_LANDMARKS_IDXS["nose"]
 
         max_frame = str(int(vs.get(cv2.CAP_PROP_FRAME_COUNT)))
-        original_codeformer_weight = opts.code_former_weight
-        original_face_restoration_model = opts.face_restoration_model
+        # original_codeformer_weight = opts.code_former_weight
+        # original_face_restoration_model = opts.face_restoration_model
 
-        opts.code_former_weight = self.code_former_weight
-        opts.face_restoration_model = self.face_restore_model
+        # opts.code_former_weight = self.code_former_weight
+        # opts.face_restoration_model = self.face_restore_model
+        original_codeformer_weight = self.code_former_weight
+        original_face_restoration_model = self.face_restore_model
 
         frame_number = 0
         if resume:
@@ -142,13 +144,13 @@ class Wav2LipUHQ:
                         vi = cv2.VideoCapture(self.original_video)
                         _, _ = vi.read()
                 frame_number = parameters["frame"]
-        print("Face Restoration model: " + str(opts.face_restoration_model))
+        print("Face Restoration model: " + str(self.code_former_weight))
 
         while True:
             print("[INFO] Processing frame: " + str(frame_number) + " of " + max_frame + " - ", end="\r")
             f_number = str(frame_number).rjust(5, '0')
-            if state.interrupted:
-                break
+            # if state.interrupted:
+            #     break
 
             # Read frame
             ret, w2l_frame = vs.read()
@@ -257,8 +259,8 @@ class Wav2LipUHQ:
                     cv2.imwrite(debug_path + "dst_" + f_number + ".png", dst)
 
             frame_number += 1
-        opts.code_former_weight = original_codeformer_weight
-        opts.face_restoration_model = original_face_restoration_model
+        # opts.code_former_weight = original_codeformer_weight
+        # opts.face_restoration_model = original_face_restoration_model
         devices.torch_gc()
         if frame_number > 1:
             vs.release()
