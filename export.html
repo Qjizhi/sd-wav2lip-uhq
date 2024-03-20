@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Houses Map</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5NhKZNSl8-Fpreq8iciFdP-fj1E4hOgE"></script>
+    <script>
+        var map;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 38.627003, lng: -90.199402}, // Set center to house location
+                zoom: 11
+            });
+            // Define house data
+            var house = {
+                address: '2026 Gladiator Dr, Fenton, MO 63026',
+                price: '$275,000',
+                bedrooms: '3B2B',
+                schools: "746",
+                minutes: 22,
+                link: "https://www.redfin.com/MO/Fenton/2026-Gladiator-Dr-63026/home/62747806",
+                lat: 38.53524,
+                lng: -90.4865109
+            };
+
+            // Create marker for the house
+            var marker = new google.maps.Marker({
+                position: {lat: house.lat, lng: house.lng},
+                map: map,
+                title: house.address
+            });
+
+            // Create content string for info window
+            var contentString = '<div id="content">' +
+                '<div id="siteNotice">' +
+                '</div>' +
+                '<h3 id="firstHeading" class="firstHeading">' + house.address + '</h3>' +
+                '<div id="bodyContent">' +
+                '<p><b>Price:</b> ' + house.price + '</p>' +
+                '<p><b>Bedrooms:</b> ' + house.bedrooms + '</p>' +
+                '<p><b>Schools:</b> ' + house.schools + '</p>' +
+                '<p><b>Commute Time:</b> ' + house.minutes + ' minutes</p>' +
+                '<p><a href="' + house.link + '">More Info</a></p>' +
+                '</div>' +
+                '</div>';
+
+            // Create info window for the house marker
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+
+            // Open info window when marker is clicked
+            marker.addListener('click', function() {
+                infowindow.open(map, marker);
+            });
+        }
+    </script>
+    <style>
+        html, body, #map {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body onload="initMap()">
+    <div id="map"></div>
+</body>
+</html>
